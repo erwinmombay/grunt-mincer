@@ -121,6 +121,16 @@ To configure `StylusEngine` to use `nib`:
 }
 ```
 
+#### writeAsset ```boolean```
+
+Default: true
+
+Flag which dictates whether to write the compiled asset file or not (this is in case you don't want the default write behavior and would like to override it through `onCompile`).
+
+#### onCompile ```function(asset)```
+
+Called during the asset compile stage just after the default write behavior (if not `writeAsset` is not set to false). The Mincer asset instance is passed in as the first argument.
+
 ## Contributing
 
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for

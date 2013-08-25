@@ -14,7 +14,7 @@ exports.init = function(grunt) {
 
   var exports = {};
 
-  exports.mince = function(src, dest, include, configurator, fn) {
+  exports.mince = function(src, dest, include, configurator, writeAsset, fn) {
     var environment = new Mincer.Environment(process.cwd()),
       asset;
 
@@ -33,8 +33,11 @@ exports.init = function(grunt) {
       if (err) {
         fn(err);
       } else {
-        grunt.file.write(dest, asset.toString());
-        fn();
+        if (writeAsset) {
+          grunt.log.write('Generating file ' + dest.cyan + '...');
+          grunt.file.write(dest, asset.toString());
+        }
+        fn(null, asset);
       }
     });
   };

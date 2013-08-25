@@ -1,3 +1,8 @@
+0.3.3 / 2013-08-25 
+==================
+
+  * Add writeAsset flag to turn off default asset write behaviour.
+  * Add onCompile hook to work with the asset instance directly.
 
 0.3.2 / 2013-06-25 
 ==================

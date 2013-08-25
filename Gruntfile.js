@@ -6,7 +6,8 @@ module.exports = function(grunt) {
       test: ['tmp']
     },
     nodeunit: {
-      files: ['test/**/*.js']
+      writeAssetTrue: ['test/**/*.js', '!test/mincer_writeAssetFalse_test.js'],
+      writeAssetFalse: ['test/mincer_writeAssetFalse_test.js']
     },
     watch: {
       files: '<config:lint.files>',
@@ -21,10 +22,16 @@ module.exports = function(grunt) {
         include: ['test/fixtures', 'test/fixtures/lib'],
         src: 'main.js',
         dest: 'tmp/full.js'
+      },
+      writeAssetFalse: {
+        include: ['test/fixtures', 'test/fixtures/lib'],
+        src: 'main.js',
+        dest: 'tmp/full.js',
+        writeAsset: false
       }
     },
     jshint: {
-      files: ['grunt.js', 'tasks/**/*.js', 'test/**/*_test.js'],
+      files: ['gruntfile.js', 'tasks/**/*.js', 'test/**/*_test.js'],
       options: {
         curly: true,
         eqeqeq: true,
@@ -54,8 +61,18 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'mince', 'nodeunit']);
+  grunt.registerTask('test', [
+    'clean',
+    'mince:main',
+    'mince:full',
+    'nodeunit:writeAssetTrue'
+  ]);
+  grunt.registerTask('testWriteAssetFalse', [
+    'clean',
+    'mince:writeAssetFalse',
+    'nodeunit:writeAssetFalse'
+  ]);
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('default', ['jshint', 'test', 'testWriteAssetFalse']);
 };
